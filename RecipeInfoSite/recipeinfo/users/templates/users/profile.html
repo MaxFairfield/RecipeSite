@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Profile / RecipeApp{% endblock %}
+
+{% block content %}
+	<h1>Your Profile</h1>
+	<br>
+	<p>Username: {{user}}</p>
+	<p>Full Name: {{user.first_name}} {{user.last_name}}</p>
+	<p>Email: {{user.email}}</p>
+	<p>Date Joined: {{user.date_joined}}</p>
+{% endblock %}

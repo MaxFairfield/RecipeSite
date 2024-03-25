@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Login / RecipeApp{% endblock %}
+
+{% block content %}
+	<h1>Login</h1>
+	<form class="" action="/users/login/" method="post">
+		{% csrf_token %}
+		<div class="mb-3">
+			<label class="form-label">Username</label>
+			{{form.username}}
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Password</label>
+			{{form.password}}
+		</div>
+		<button class="btn btn-primary">Submit</button>
+	</form>
+{% endblock %}
