@@ -44,6 +44,10 @@
 					<a class="nav-link text-success" href="{% url 'users:create_recipe' %}">+</a>
 				{% endif %}
 			</ul>
+			<form class="d-flex px-5" role="search" method="get" id="searchForm" action="{% url 'browse_recipes' id=1 %}">
+				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+				<input type="submit" style="height: 0px; width: 0px; border: none; padding: 0px;" hidefocus="true">
+			</form>
 			<form class="d-flex">
 				{% if user.is_authenticated %}
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,13 +71,51 @@
 		</div>
 	</nav>
 
-	<main>
+	<main style="min-height: 100vh;">
         <div class="container" style="margin-top: 5rem;">
             {% block content %}
             	Missing content
             {% endblock %}
         </div>
 	</main>
+
+	<footer>
+		<div class="border-top">
+			<div class="container pt-5">
+				<div class="row">
+					<div class="col text-center">
+						RecipeApp
+					</div>
+					<div class="col text-center">Created by Max Fairfield</div>
+				</div>
+				<div class="row py-5">
+					<div class="col d-flex justify-content-center">
+						<a href="" style="color: inherit;">
+							<i class="bi bi-twitter-x px-2"></i>
+						</a>
+						<a href="https://github.com/MaxFairfield" style="color: inherit;">
+							<i class="bi bi-github px-2"></i>
+						</a>
+						<a href="" style="color: inherit;">
+							<i class="bi bi-instagram px-2"></i>
+						</a>
+						<a href="https://www.linkedin.com/in/max-fairfield-19a565300/" style="color: inherit;">
+							<i class="bi bi-linkedin px-2"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+	<script>
+		document.getElementById('searchForm').addEventListener('submit', function(event) {
+			event.preventDefault();
+		   
+			var searchValue = document.querySelector('.form-control').value;
+			var searchURL = "{% url 'browse_recipes' id=1 %}" + '?q=' + encodeURIComponent(searchValue);
+			window.location.href = searchURL;
+		});
+	</script>
 </body>
 </html>

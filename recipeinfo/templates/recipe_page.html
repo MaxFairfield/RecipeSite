@@ -2,27 +2,25 @@
 
 {% block title %}{{recipe}} / RecipeApp{% endblock %}
 
+{% load static %}
+{% load custom_filters %}
+
 {% block content %}	
-	<h1>{{recipe}}:</h1>
-	<div class="d-flex justify-content-between">
-		<p>Author: {{recipe.author}}</p>
+	<div class="d-flex justify-content-between mb-5">
 		<div>
-			{% if rating %}
-				{% for i in "12345" %}
-					{% if rating >= forloop.counter %}
-						<i class="bi bi-star-fill"></i>
-					{% elif rating > forloop.counter0 %}
-						<i class="bi bi-star-half"></i>
-					{% else %}
-						<i class="bi bi-star"></i>
-					{% endif %}
-				{% endfor %}
-			{% else %}
-				<p>No rating available</p>
-			{% endif %}
+			<h1>{{recipe}}:</h1>
+			<p>Author: {{recipe.author}}</p>
+			<p>Rating: {{feedback|star_rating}}<br>(from {{feedback|length}} reviews)</p>
+		</div>
+		<div>
+			<div class="card" style="width: 8rem; height: 8rem;">
+				<div>
+					<img src="{{recipe.image.url}}" class="card-img-top" alt="{{recipe.filename}}" style="width: 100%; height: 100%; object-fit: cover; overflow: hidden;">
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row mb-5">
 		<div class="col-lg-6">
 			<div class="card">
 				<div class="card-header d-flex justify-content-between">
@@ -54,4 +52,25 @@
 			</div>
 		</div>
 	</div>
+	<h4>Feedback:</h4>
+	{% for comment in feedback %}
+		<div class="card mb-3">
+			<div class="d-flex">
+				<div class="card-body">
+					{{comment.rating|star_rating}}
+					<p class="card-text">
+						{{comment}}
+					</p>
+					<div class="text-secondary">
+						by {{comment.author}}
+					</div>
+				</div>
+				<div>
+					{% if user == comment.author %}
+						<button type="button" class="btn bg-danger m-2"><i class="bi bi-trash-fill"></i></button>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
 {% endblock %}

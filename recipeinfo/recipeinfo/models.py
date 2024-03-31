@@ -45,3 +45,13 @@ class Review(models.Model):
 
 	def __str__(self):
 		return f"{self.recipe.title} - {self.user.username}"
+
+class Feedback(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+	rating = models.IntegerField(choices=[(i, i) for i in range(1, 11)])
+	text = models.TextField()
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.text

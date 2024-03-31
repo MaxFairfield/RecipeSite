@@ -40,7 +40,7 @@ def profile_view(request):
 def create_recipe_view(request):
 	categories = Category.objects.all().order_by('id')
 	if request.method == 'POST':
-		form = RecipeCreationForm(data=request.POST)
+		form = RecipeCreationForm(request.POST, request.FILES)
 		if form.is_valid():
 			recipe = form.save(commit=False)
 

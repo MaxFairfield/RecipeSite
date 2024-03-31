@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Category, Recipe
+from .models import Category, Recipe, Feedback
+from django.db.models import Q
+
 
 def home_page(request):
 	categories = Category.objects.all().order_by('id')
@@ -9,7 +11,22 @@ def home_page(request):
 def browse_recipes(request, id):
 	search_category = Category.objects.get(id=id)
 
-	recipes = Recipe.objects.filter(categories=search_category)
+	q = request.GET.get('q') if request.GET.get('q') is not None else ''
+
+	recipes = None
+
+	if not q:
+		# not searching
+		recipes = Recipe.objects.filter(
+			categories=search_category
+		)
+	else:
+		#searching
+		recipes = Recipe.objects.filter(
+			categories=search_category and
+			Q(title__icontains=q)
+		)
+
 	categories = Category.objects.all().order_by('id')
 	return render(
 		request,
@@ -17,7 +34,8 @@ def browse_recipes(request, id):
 		{
 			'search_category': search_category,
 			'recipes': recipes,
-			'categories': categories
+			'categories': categories,
+			'q': q
 		}
 	)
 
@@ -32,6 +50,8 @@ def recipe_page(request, id):
 
 	categories = Category.objects.all().order_by('id')
 
+	feedback = Feedback.objects.filter(recipe=recipe)
+
 	return render(
 		request,
 		'recipe_page.html',
@@ -40,6 +60,7 @@ def recipe_page(request, id):
 			'ingredients': ingredients,
 			'directions': directions,
 			'rating': recipe.rating / 2 if recipe.rating is not None else None,
+			'feedback': feedback,
 
 			'categories': categories
 		}

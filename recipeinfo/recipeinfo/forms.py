@@ -1,7 +1,7 @@
 from typing import Any
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from recipeinfo.models import Recipe, Category, User
+from recipeinfo.models import Recipe, Category, User, Feedback
 
 class RegisterForm(UserCreationForm):
 	def __init__(self, *args, **kwargs) -> None:
@@ -60,3 +60,8 @@ class RecipeCreationForm(forms.ModelForm):
 			'prep_time',
 			'cook_time'
 		)
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['text']
