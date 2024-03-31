@@ -2,13 +2,13 @@
 
 Welcome to the RecipeSite Repository! This Django project was developed as part of my Level 6 Software Development course. This project is dedicated to providing a platform for food enjoyers to explore, share, and celebrate the art of creating various foods.
 
-# Project Objectives
+## Project Objectives
 
 * Utilize the Django framework to create a comprehensive culinary website.
 * Implement a user-friendly interface with a clean, attractive design.
 * Ensure the website is responsive and accessible on various devices.
 
-# Dependencies
+## Dependencies
 
 * python3.12.2
 * sqllite
@@ -17,7 +17,7 @@ Welcome to the RecipeSite Repository! This Django project was developed as part 
 * venv
 * Bootstrap 5.3.3
 
-# Cloning & Setup
+## Cloning & Setup
 
 1. Clone the repository
 ```bash
