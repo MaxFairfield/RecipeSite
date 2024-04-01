@@ -3,11 +3,44 @@ from django.http import HttpResponse
 from .models import Category, Recipe, Feedback
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.db.models import Count
+from django.utils import timezone
 
 
 def home_page(request):
 	categories = Category.objects.all().order_by('id')
-	return render(request, 'home.html', {'categories': categories})
+
+	recipes = Recipe.objects.all()
+	trending_recipes = []
+
+	for recipe in recipes:
+		feedbackObjects = Feedback.objects.filter(recipe=recipe)
+
+		if len(feedbackObjects) > 0:
+			average = 0
+
+			print(recipe)
+			
+			for v in feedbackObjects:
+				print(f'    {v.rating}')
+				average = average + v.rating
+
+			average = average / len(feedbackObjects)
+
+			recipe.rating = average
+
+			trending_recipes.append(recipe)
+	
+	trending_recipes = sorted(trending_recipes, key=lambda x: x.rating, reverse=True)[:3]
+
+	return render(
+		request,
+		'home.html',
+		{
+			'categories': categories,
+			'trending_recipes': trending_recipes
+		}
+	)
 
 def browse_recipes(request, id):
 	search_category = Category.objects.get(id=id)

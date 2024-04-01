@@ -11,14 +11,18 @@ def split_text(value, delimiter=","):
 @register.filter
 def star_rating(value):
     string = ''
-    if type(value) == int:
+    if type(value) == int or type(value) == float:
+        stars = value/2
         for i in range(1, 6):
-            if i + 0.5<= value:
+            if i <= stars:
                 string += '<i class="bi bi-star-fill"></i>'
-            elif i == value:
+            elif i - 0.5 <= stars:
                 string += '<i class="bi bi-star-half"></i>'
             else:
                 string += '<i class="bi bi-star"></i>'
+                
+        #debug:
+        #string += f' ({value})'
     else:
         length = 0
         sum = 0
@@ -29,12 +33,15 @@ def star_rating(value):
         if length == 0:
             string = 'No rating available'
         else:
-            stars = int(math.floor((sum/length) + 0.5))
+            stars = (sum / (length * 1))  # Adjusted for half-star ratings
             for i in range(1, 6):
-                if i + 0.5 <= stars/2:
+                if i <= stars/2:
                     string += '<i class="bi bi-star-fill"></i>'
-                elif i == stars/2:
+                elif i - 0.5 <= stars/2:
                     string += '<i class="bi bi-star-half"></i>'
                 else:
                     string += '<i class="bi bi-star"></i>'
+
+            #debug:
+            #string += f' (average: {stars})'
     return mark_safe(string)
