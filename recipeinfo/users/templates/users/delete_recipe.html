@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}Delete Recipe / RecipeApp{% endblock %}
+
+{% block content %}
+	<form method="POST" action="">
+		{% csrf_token %}
+		<p>Are you sure you want to delete {{recipe}}?</p>
+		<input type="submit" value="Confirm" class="btn btn-primary">
+	</form>
+{% endblock %}

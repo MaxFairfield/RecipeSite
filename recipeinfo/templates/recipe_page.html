@@ -11,6 +11,10 @@
 			<h1>{{recipe}}:</h1>
 			<p>Author: {{recipe.author}}</p>
 			<p>Rating: {{feedback|star_rating}}<br>(from {{feedback|length}} reviews)</p>
+			{% if user == recipe.author %}
+				<a href="{% url 'users:update_recipe' id=recipe.id %}">Update Recipe</a>
+				<a href="{% url 'users:delete_recipe' id=recipe.id %}">Delete Recipe</a>
+			{% endif %}
 		</div>
 		<div>
 			<div class="card" style="width: 8rem; height: 8rem;">

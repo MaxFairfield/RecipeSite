@@ -1,12 +1,20 @@
 {% extends "layout.html" %}
 
-{% block title %}Create Recipe / RecipeApp{% endblock %}
+{% block title %}{% if update %}Update{% else %}Create{% endif %} Recipe / RecipeApp{% endblock %}
 
 {% block content %}
-	<h1>Create Recipe</h1>
-	<form class="" action="{% url 'users:create_recipe' %}" enctype="multipart/form-data" method="post">
-		{% csrf_token %}
-		{{form}}
-		<button>Submit</button>
-	</form>
+	<h1>{% if update %}Update{% else %}Create{% endif %} Recipe</h1>
+	{% if update %}
+		<form class="" action="{% url 'users:update_recipe' id=recipe.id %}" enctype="multipart/form-data" method="POST">
+			{% csrf_token %}
+			{{form}}
+			<button>Submit</button>
+		</form>
+	{% else %}
+		<form class="" action="{% url 'users:create_recipe' %}" enctype="multipart/form-data" method="POST">
+			{% csrf_token %}
+			{{form}}
+			<button>Submit</button>
+		</form>
+	{% endif %}
 {% endblock %}

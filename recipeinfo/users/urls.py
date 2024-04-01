@@ -13,6 +13,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile_view, name='profile'),
     path('create-recipe/', views.create_recipe_view, name='create_recipe'),
+    path('update-recipe/<int:id>/', views.update_recipe_view, name='update_recipe'),
+    path('delete-recipe/<int:id>/', views.delete_recipe_view, name='delete_recipe'),
 
     #reset password
     path('', include('django.contrib.auth.urls')),

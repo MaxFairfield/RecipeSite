@@ -19,10 +19,7 @@ def home_page(request):
 		if len(feedbackObjects) > 0:
 			average = 0
 
-			print(recipe)
-			
 			for v in feedbackObjects:
-				print(f'    {v.rating}')
 				average = average + v.rating
 
 			average = average / len(feedbackObjects)

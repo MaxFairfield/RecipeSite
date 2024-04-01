@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from recipeinfo.forms import RegisterForm, LoginForm
 from recipeinfo.forms import RecipeCreationForm
 from django.contrib.auth import login, logout
-from recipeinfo.models import Category
+from recipeinfo.models import Category, Recipe
 from django.urls import reverse
+from django.http import HttpResponse
 
 def register_view(request):
 	categories = Category.objects.all().order_by('id')
@@ -60,7 +61,44 @@ def create_recipe_view(request):
 			return redirect('home')
 	else:
 		form = RecipeCreationForm()
-	return render(request, 'users/create_recipe.html', {'form': form, 'categories': categories})
+	return render(request, 'users/create_recipe.html', {'form': form, 'categories': categories, 'update': False})
+
+def update_recipe_view(request, id):
+	categories = Category.objects.all().order_by('id')
+	recipe = Recipe.objects.get(id=id)
+	
+	form = RecipeCreationForm(instance=recipe)
+
+	if request.method == 'POST':
+		form = RecipeCreationForm(request.POST, request.FILES, instance=recipe)
+		if form.is_valid():
+			form.save()
+			return redirect('home')
+	else:
+		form = RecipeCreationForm(instance=recipe)
+	
+	return render(request, 'users/create_recipe.html', {'form': form, 'categories': categories, 'update': True, 'recipe': recipe})
+
+def delete_recipe_view(request, id):
+	categories = Category.objects.all().order_by('id')
+	recipe = Recipe.objects.get(id=id)
+	
+	if request.user != recipe.author:
+		return HttpResponse('You are not the author')
+
+	if request.method == 'POST':
+		recipe.delete()
+		return redirect('home')
+
+	if request.method == 'POST':
+		form = RecipeCreationForm(request.POST, request.FILES, instance=recipe)
+		if form.is_valid():
+			form.save()
+			return redirect('home')
+	else:
+		form = RecipeCreationForm(instance=recipe)
+	
+	return render(request, 'users/delete_recipe.html', {'form': form, 'categories': categories, 'update': True, 'recipe': recipe})
 
 def custom_password_reset_done(request):
     return redirect(reverse('users:login'))
