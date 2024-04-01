@@ -33,12 +33,15 @@ def home_page(request):
 	
 	trending_recipes = sorted(trending_recipes, key=lambda x: x.rating, reverse=True)[:3]
 
+	feedback = Feedback.objects.all().order_by('-rating')[:4]
+
 	return render(
 		request,
 		'home.html',
 		{
 			'categories': categories,
-			'trending_recipes': trending_recipes
+			'trending_recipes': trending_recipes,
+			'feedback': feedback
 		}
 	)
 

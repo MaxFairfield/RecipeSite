@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="row py-3">
-	<div class="card">
+	<div class="card bg-body-tertiary">
 		<div class="card-body">
 			<h5 class="card-title">Chef's Special Video</h5>
 			<div class="d-flex justify-content-center">
@@ -17,28 +17,47 @@
 	</div>
 </div>
 <div class="row py-3">
-	<div class="card">
+	<div class="card bg-body-tertiary">
 		<div class="card-body">
 			<h5 class="card-title">Trending Recipes</h5>
 			<br>
 			<div class="row">
 				{% for recipe in trending_recipes %}
 					<div class="col">
-						<div class="card" style="overflow: hidden; max-height: 10rem;">
+						<div class="card text-white" style="overflow: hidden; max-height: 15rem;">
 							<img src="{{recipe.image.url}}" class="card-img-top" style="filter: blur(5px) brightness(25%);">
 							<div class="card-img-overlay d-flex flex-column justify-content-end">
-								<h5 class="card-title">{{ recipe.title }}</h5>
-								<div class="d-flex justify-content-between align-items-center">
+								<h5 class="card-title">{{recipe.title}}</h5>
 									<p class="card-text">By {{recipe.author.username}}</p>
 									<p class="card-text">{{recipe.rating|star_rating}}</p>
+								<div class="mt-auto">
+									<a href="{% url 'recipe_page' id=recipe.id %}" class="btn btn-primary">View Recipe</a>
 								</div>
-								<a href="#" class="btn btn-primary mt-auto">View Recipe</a>
 							</div>
 						</div>
 					</div>
 				{% endfor %}
 			</div>
 		</div>
+	</div>
+</div>
+<div class="row py-5">
+	<div class="row pb-5">
+		<h3>What our users say:</h3>
+	</div>
+	<div class="row">
+		{% for review in feedback %}
+		<div class="col">
+			<div>
+				<div class="d-flex justify-content-center">
+					<div>
+						<div class="fst-italic">"{{review}}"</div>
+						<div class="text-end text-secondary">-{{review.author}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}
