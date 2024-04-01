@@ -3,6 +3,7 @@ from recipeinfo.forms import RegisterForm, LoginForm
 from recipeinfo.forms import RecipeCreationForm
 from django.contrib.auth import login, logout
 from recipeinfo.models import Category
+from django.urls import reverse
 
 def register_view(request):
 	categories = Category.objects.all().order_by('id')
@@ -60,3 +61,6 @@ def create_recipe_view(request):
 	else:
 		form = RecipeCreationForm()
 	return render(request, 'users/create_recipe.html', {'form': form, 'categories': categories})
+
+def custom_password_reset_done(request):
+    return redirect(reverse('users:login'))

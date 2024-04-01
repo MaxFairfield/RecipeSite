@@ -124,6 +124,16 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'recipeinfo', 'static'),
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_FILE_PATH = BASE_DIR / "sent_emails" #file backend
+
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587  # or 465 if using SSL
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'recipeapp.django@gmail.com'
+#EMAIL_HOST_PASSWORD = 'dj@ngo123'
+
 # Media Files
 
 MEDIA_URL = '/media/'

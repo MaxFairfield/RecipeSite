@@ -22,7 +22,7 @@ class Recipe(models.Model):
 	title = models.CharField(max_length=300)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	categories = models.ManyToManyField(Category)
-	image = models.ImageField(upload_to='recipeinfo/static/', null=True, blank=True)
+	image = models.ImageField(upload_to='recipeinfo/static/')
 	ingredients = models.TextField()
 	directions = models.TextField()
 	prep_time = models.IntegerField(default=10)
